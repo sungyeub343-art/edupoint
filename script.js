@@ -9,10 +9,15 @@ const updateHeader = () => header?.classList.toggle('scrolled', window.scrollY >
 updateHeader();
 window.addEventListener('scroll', updateHeader, { passive: true });
 
-form?.addEventListener('submit', (event) => {
-  event.preventDefault();
-  const data = new FormData(form);
-  const grade = data.get('grade');
-  const area = data.get('area');
-  status.textContent = `${grade} · ${area} 상담 내용이 확인되었습니다. 운영 연락처 연결 후 접수가 완료되도록 설정할 수 있습니다.`;
+const params = new URLSearchParams(window.location.search);
+if (status && params.get('submitted') === '1') {
+  status.textContent = '상담 신청이 접수되었습니다. 확인 후 연락드리겠습니다.';
+}
+
+form?.addEventListener('submit', () => {
+  const button = form.querySelector('button[type="submit"]');
+  if (button) {
+    button.disabled = true;
+    button.textContent = '상담 신청 중...';
+  }
 });
