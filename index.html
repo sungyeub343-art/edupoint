@@ -21,6 +21,43 @@
 </head>
 <body>
   <a class="skip-link" href="#main">본문으로 바로가기</a>
+  <dialog class="region-dialog" id="region-dialog" aria-labelledby="region-dialog-title" aria-describedby="region-dialog-description">
+    <div class="region-dialog-inner">
+      <button class="region-dialog-close" type="button" aria-label="지역 선택 창 닫기" data-region-dialog-close>
+        <span aria-hidden="true"></span>
+      </button>
+      <p class="region-dialog-label">REGION SELECT</p>
+      <h2 id="region-dialog-title">어느 지역의<br>수학과외를 찾으시나요?</h2>
+      <p id="region-dialog-description">자치구를 선택하면 해당 지역 안내로 바로 이동합니다.</p>
+      <div class="region-dialog-grid" aria-label="서울 자치구 선택">
+        <a href="areas/gangnam-gu/"><span>01</span><strong>강남구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/gangdong-gu/"><span>02</span><strong>강동구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/gangbuk-gu/"><span>03</span><strong>강북구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/gangseo-gu/"><span>04</span><strong>강서구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/gwanak-gu/"><span>05</span><strong>관악구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/gwangjin-gu/"><span>06</span><strong>광진구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/guro-gu/"><span>07</span><strong>구로구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/geumcheon-gu/"><span>08</span><strong>금천구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/nowon-gu/"><span>09</span><strong>노원구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/dobong-gu/"><span>10</span><strong>도봉구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/dongdaemun-gu/"><span>11</span><strong>동대문구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/dongjak-gu/"><span>12</span><strong>동작구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/mapo-gu/"><span>13</span><strong>마포구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/seodaemun-gu/"><span>14</span><strong>서대문구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/seocho-gu/"><span>15</span><strong>서초구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/seongdong-gu/"><span>16</span><strong>성동구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/seongbuk-gu/"><span>17</span><strong>성북구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/songpa-gu/"><span>18</span><strong>송파구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/yangcheon-gu/"><span>19</span><strong>양천구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/yeongdeungpo-gu/"><span>20</span><strong>영등포구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/yongsan-gu/"><span>21</span><strong>용산구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/eunpyeong-gu/"><span>22</span><strong>은평구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/jongno-gu/"><span>23</span><strong>종로구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/jung-gu/"><span>24</span><strong>중구</strong><i aria-hidden="true">↗</i></a>
+        <a href="areas/jungnang-gu/"><span>25</span><strong>중랑구</strong><i aria-hidden="true">↗</i></a>
+      </div>
+    </div>
+  </dialog>
   <header class="site-header" id="top">
     <a class="brand" href="#top" aria-label="서울 수학과외 홈">
       <span class="brand-mark" aria-hidden="true">Σ</span>
@@ -44,7 +81,7 @@
         <p class="hero-copy">학생의 현재 위치를 정확히 보고, 다음 단계까지 이어지는 공부의 흐름을 만듭니다.</p>
         <div class="hero-actions">
           <a class="button button-primary" href="tel:01029283614" aria-label="010-2928-3614로 전화하기">010-2928-3614</a>
-          <a class="text-link" href="#program">학년별 수업 보기 <span aria-hidden="true">↓</span></a>
+          <button class="text-link region-dialog-open" type="button" data-region-dialog-open>지역별 안내 보기 <span aria-hidden="true">↗</span></button>
         </div>
       </div>
       <div class="hero-note" aria-label="수업 핵심 정보">
