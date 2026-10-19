@@ -2,10 +2,17 @@
 
 `edupoint.kr`에 배포하는 서울 지역 1:1 수학과외 정적 웹사이트입니다.
 
-## 지역 페이지 생성
+## 페이지 생성
 
 ```powershell
 .\generate-location-pages.ps1
 ```
+
+다음 파일을 생성합니다. 홈(`index.html`)은 직접 수정합니다.
+
+- `elementary/`, `middle/`, `high/`: 서울 초등·중등·고등 수학과외
+- `areas/{구}/`: 자치구 수학과외 허브
+- `areas/{구}/elementary|middle|high/`: 자치구별 초등·중등·고등 수학
+- `sitemap.xml`, `rss.xml`: 네이버 서치어드바이저 제출용
 
 GitHub Pages는 저장소 루트의 `CNAME`을 사용해 맞춤 도메인을 연결합니다.

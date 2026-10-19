@@ -26,7 +26,22 @@ regionDialog?.addEventListener('click', (event) => {
   if (isBackdropClick) regionDialog.close();
 });
 
-const updateHeader = () => header?.classList.toggle('scrolled', window.scrollY > 24);
+// 첫 방문 시 한 번만 지역 선택 창을 띄운다. 상담 신청서(#contact)로 바로 온 경우나
+// 신청 완료 후 돌아온 경우에는 띄우지 않는다.
+const REGION_DIALOG_SEEN_KEY = 'regionDialogSeen';
+const hasSeenRegionDialog = () => {
+  try { return sessionStorage.getItem(REGION_DIALOG_SEEN_KEY) === '1'; } catch { return false; }
+};
+const markRegionDialogSeen = () => {
+  try { sessionStorage.setItem(REGION_DIALOG_SEEN_KEY, '1'); } catch { /* 저장소 차단 시 무시 */ }
+};
+const isDirectVisit = !window.location.hash && !window.location.search.includes('submitted=');
+if (regionDialog && isDirectVisit && !hasSeenRegionDialog()) {
+  markRegionDialogSeen();
+  openRegionDialog();
+}
+
+const updateHeader =() => header?.classList.toggle('scrolled', window.scrollY > 24);
 updateHeader();
 window.addEventListener('scroll', updateHeader, { passive: true });
 
