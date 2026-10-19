@@ -1,6 +1,4 @@
 const header = document.querySelector('.site-header');
-const form = document.querySelector('#consultation-form');
-const status = document.querySelector('#form-status');
 const year = document.querySelector('#year');
 const regionDialog = document.querySelector('#region-dialog');
 const regionDialogOpenButtons = document.querySelectorAll('[data-region-dialog-open]');
@@ -26,8 +24,8 @@ regionDialog?.addEventListener('click', (event) => {
   if (isBackdropClick) regionDialog.close();
 });
 
-// 첫 방문 시 한 번만 지역 선택 창을 띄운다. 상담 신청서(#contact)로 바로 온 경우나
-// 신청 완료 후 돌아온 경우에는 띄우지 않는다.
+// 첫 방문 시 한 번만 지역 선택 창을 띄운다. #contact 등 해시 링크로
+// 바로 온 경우에는 띄우지 않는다.
 const REGION_DIALOG_SEEN_KEY = 'regionDialogSeen';
 const hasSeenRegionDialog = () => {
   try { return sessionStorage.getItem(REGION_DIALOG_SEEN_KEY) === '1'; } catch { return false; }
@@ -35,7 +33,7 @@ const hasSeenRegionDialog = () => {
 const markRegionDialogSeen = () => {
   try { sessionStorage.setItem(REGION_DIALOG_SEEN_KEY, '1'); } catch { /* 저장소 차단 시 무시 */ }
 };
-const isDirectVisit = !window.location.hash && !window.location.search.includes('submitted=');
+const isDirectVisit = !window.location.hash;
 if (regionDialog && isDirectVisit && !hasSeenRegionDialog()) {
   markRegionDialogSeen();
   openRegionDialog();
@@ -44,16 +42,3 @@ if (regionDialog && isDirectVisit && !hasSeenRegionDialog()) {
 const updateHeader =() => header?.classList.toggle('scrolled', window.scrollY > 24);
 updateHeader();
 window.addEventListener('scroll', updateHeader, { passive: true });
-
-const params = new URLSearchParams(window.location.search);
-if (status && params.get('submitted') === '1') {
-  status.textContent = '상담 신청이 접수되었습니다. 확인 후 연락드리겠습니다.';
-}
-
-form?.addEventListener('submit', () => {
-  const button = form.querySelector('button[type="submit"]');
-  if (button) {
-    button.disabled = true;
-    button.textContent = '상담 신청 중...';
-  }
-});

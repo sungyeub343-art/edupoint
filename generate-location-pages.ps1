@@ -1,6 +1,6 @@
 ﻿$ErrorActionPreference = 'Stop'
 $baseUrl = 'https://edupoint.kr'
-$assetVersion = '20261019-4'
+$assetVersion = '20261019-5'
 $phone = '010-2928-3614'
 $tel = '01029283614'
 $today = Get-Date -Format 'yyyy-MM-dd'
@@ -137,7 +137,7 @@ $levels = [ordered]@{
 }
 
 $hubFaqs = @(
-  @{ Q = '{D} 수학과외 상담은 어떻게 진행되나요?'; A = '전화 또는 상담 신청서로 학생의 학년, 학교, 현재 고민을 알려주시면 확인 후 연락드립니다. 최근 시험지나 사용 중인 교재가 있으면 더 정확하게 상담할 수 있습니다.' },
+  @{ Q = '{D} 수학과외 상담은 어떻게 진행되나요?'; A = '전화로 학생의 학년, 학교, 현재 고민을 알려주시면 확인 후 연락드립니다. 최근 시험지나 사용 중인 교재가 있으면 더 정확하게 상담할 수 있습니다.' },
   @{ Q = '어떤 학년까지 수업이 가능한가요?'; A = '초등학생부터 중1~중3, 고1~고3까지 상담할 수 있습니다. 학년별 교육과정과 학생의 목표에 맞춰 수업 내용을 정합니다.' },
   @{ Q = '수업 횟수와 시간은 어떻게 정하나요?'; A = '학생의 학교 일정, 현재 실력, 목표에 따라 상담 후 함께 정합니다.' }
 )
@@ -266,7 +266,6 @@ function Get-Hero($crumbs, [string]$prefix, [string]$eyebrow, [string]$h1, [stri
       <ul class="keyword-chips" aria-label="주요 수업">$chipItems</ul>
       <div class="area-hero-actions">
         <a class="button button-primary" href="tel:$tel" aria-label="${phone}로 전화하기">$phone 전화 상담</a>
-        <a class="text-link" href="${prefix}#contact">상담 신청서 작성 <span aria-hidden="true">↗</span></a>
       </div>
     </section>
 "@
@@ -308,7 +307,6 @@ function Get-Cta([string]$heading, [string]$prefix) {
         <p>학생의 학년과 거주 지역, 현재 학습 고민을 알려주세요. 최근 시험지나 교재가 있으면 더 정확한 상담이 가능합니다.</p>
         <div class="area-cta-actions">
           <a class="button" href="tel:$tel" aria-label="${phone}로 전화하기">$phone 전화하기</a>
-          <a class="text-link" href="${prefix}#contact">상담 신청서 작성 <span aria-hidden="true">↗</span></a>
         </div>
       </section>
 "@
