@@ -26,8 +26,6 @@ regionDialog?.addEventListener('click', (event) => {
   if (isBackdropClick) regionDialog.close();
 });
 
-openRegionDialog();
-
 const updateHeader = () => header?.classList.toggle('scrolled', window.scrollY > 24);
 updateHeader();
 window.addEventListener('scroll', updateHeader, { passive: true });
