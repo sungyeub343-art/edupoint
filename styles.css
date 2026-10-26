@@ -167,6 +167,9 @@ footer { display: grid; grid-template-columns: 1fr auto; align-items: center; ga
 .area-note { margin: 2rem 0 0; color: #495550; }
 .tag-list { display: flex; flex-wrap: wrap; gap: .5rem; margin: 1.4rem 0 0; padding: 0; list-style: none; }
 .tag-list li { padding: .35rem .9rem; border-radius: 999px; color: var(--green); background: #e3ece8; font-size: .84rem; font-weight: 600; }
+.school-groups { display: grid; gap: 2rem; margin-top: 2.5rem; }
+.school-group h3 { margin: 0; padding-bottom: .7rem; border-bottom: 1px solid var(--line); font-size: 1.05rem; }
+.school-group .tag-list { margin-top: 1rem; }
 .related-links { display: grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: .7rem; margin-top: 2.5rem; }
 .related-links a { display: flex; justify-content: space-between; align-items: center; gap: .5rem; padding: 1rem 1.1rem; border: 1px solid var(--line); background: var(--white); font-size: .92rem; font-weight: 600; transition: border-color .2s; }
 .related-links a:hover { border-color: var(--coral); }

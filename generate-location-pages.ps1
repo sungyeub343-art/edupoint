@@ -1,6 +1,6 @@
 ﻿$ErrorActionPreference = 'Stop'
 $baseUrl = 'https://edupoint.kr'
-$assetVersion = '20261019-5'
+$assetVersion = '20261026-1'
 $phone = '010-2928-3614'
 $tel = '01029283614'
 $today = Get-Date -Format 'yyyy-MM-dd'
@@ -36,11 +36,14 @@ $areas = @(
 $areaBySlug = @{}
 foreach ($area in $areas) { $areaBySlug[$area.Slug] = $area }
 
+# 자치구별 초·중·고 학교명. 전국초중등학교위치표준데이터(공공데이터포털)에서 서울 운영 학교만 추린 것.
+$schoolData = [System.IO.File]::ReadAllText((Join-Path $PSScriptRoot 'data/seoul-schools.json'), $utf8) | ConvertFrom-Json
+
 # 학교급별 콘텐츠. {D}는 지역명, {N}은 대표 동네로 치환된다.
 # Intros는 지역마다 다른 문장을 고르도록 여러 개를 둔다(유사문서 방지).
 $levels = [ordered]@{
   elementary = @{
-    Key = 'elementary'; Label = '초등'; English = 'ELEMENTARY'; Student = '초등학생'
+    Key = 'elementary'; Label = '초등'; English = 'ELEMENTARY'; Student = '초등학생'; SchoolLabel = '초등학교'
     Title = '{D} 초등 수학과외 | 초등 기초수학·수학공부 1:1 수업'
     Description = '{D} 초등 수학과외. {N} 초등학생의 초등 수학수업, 수학공부 습관, 기초수학 연산까지 1:1로 진단하고 맞춤 수업을 설계합니다. 상담 010-2928-3614'
     Summary = '연산 습관과 개념 이해를 함께 잡아 중학교 수학까지 이어지는 기초를 만듭니다.'
@@ -71,7 +74,7 @@ $levels = [ordered]@{
     Tags = @('초등 연산', '초등 서술형 수학', '초등 사고력 수학', '초등 수학 선행', '예비중1 수학', '초등 수학 개인과외')
   }
   middle = @{
-    Key = 'middle'; Label = '중등'; English = 'MIDDLE SCHOOL'; Student = '중학생'
+    Key = 'middle'; Label = '중등'; English = 'MIDDLE SCHOOL'; Student = '중학생'; SchoolLabel = '중학교'
     Title = '{D} 중등 수학과외 | 중등 수학내신·기초수학 1:1 수업'
     Description = '{D} 중등 수학과외. {N} 중학생의 중등 수학내신, 기초수학, 서술형까지 중1·중2·중3 학년별 1:1 맞춤 수업으로 준비합니다. 상담 010-2928-3614'
     Summary = '학교 진도와 시험 범위에 맞춰 개념, 유형, 서술형까지 단계별로 준비합니다.'
@@ -102,7 +105,7 @@ $levels = [ordered]@{
     Tags = @('중등 수학 선행', '중학 수학 서술형', '중간고사 수학 대비', '기말고사 수학 대비', '예비고1 수학', '중등 수학 개인과외')
   }
   high = @{
-    Key = 'high'; Label = '고등'; English = 'HIGH SCHOOL'; Student = '고등학생'
+    Key = 'high'; Label = '고등'; English = 'HIGH SCHOOL'; Student = '고등학생'; SchoolLabel = '고등학교'
     Title = '{D} 고등 수학과외 | 수능수학·수능대비·내신 1:1 수업'
     Description = '{D} 고등 수학과외. {N} 고등학생의 수학내신, 수능대비, 수능수학까지 고1·고2·고3 목표 등급에 맞춘 1:1 수업을 설계합니다. 상담 010-2928-3614'
     Summary = '현재 등급과 목표 전형을 바탕으로 내신과 수능 수학을 함께 설계합니다.'
@@ -636,6 +639,13 @@ for ($i = 0; $i -lt $areas.Count; $i++) {
   $hubLinks += $levels.Values | ForEach-Object { @{ Href = "../../$($_.Key)/"; Text = "서울 $($_.Label) 수학과외" } }
   $hubLinks += $towns | Where-Object { $_.Area -eq $area.Slug } | ForEach-Object { @{ Href = "../../towns/$($_.Slug)/"; Text = "$($_.Name) 수학과외" } }
   $hubLinks += Get-TopicLinks $topics.Keys '../../'
+  $schools = $schoolData.areas.($area.Name)
+  $schoolCounts = ($levels.Values | ForEach-Object { "$($_.SchoolLabel) $(@($schools.($_.Key)).Count)곳" }) -join ', '
+  $schoolGroups = ($levels.Values | ForEach-Object {
+    $label = "$($area.Name) $($_.SchoolLabel)"
+    $items = (@($schools.($_.Key)) | ForEach-Object { "<li>$(E $_)</li>" }) -join ''
+    "<div class=`"school-group`"><h3>$(E $label)</h3><ul class=`"tag-list`" aria-label=`"$(E $label)`">$items</ul></div>"
+  }) -join "`n          "
   $intro = Fill $hubIntros[$i % $hubIntros.Count] $ctx
   $hero = Get-Hero $hubCrumbs '../../' "$($area.Name) · PERSONAL MATH TUTORING" "$($area.Name) 수학과외" '학교 진도와 현재 실력을 함께 살펴, 학생에게 필요한 순서로 수학 공부를 설계합니다.' @('초등 수학', '중등 수학', '고등 수학', '수학내신', '수능수학', '기초수학')
   $body = @"
@@ -661,8 +671,16 @@ $hero
         <p class="area-note">$(E $ctx.N) 등 $(E $area.Name) 전 지역에서 상담할 수 있습니다.</p>
         <ul class="tag-list" aria-label="동네별 수학과외">$neighborhoodTags</ul>
       </section>
-$(Get-Faq '04' $faqs)
-$(Get-Related '05' '가까운 지역<br>수학과외' $hubLinks $null)
+      <section class="area-section school-links" aria-labelledby="school-title">
+        <p class="section-number">04 / SCHOOL</p>
+        <h2 id="school-title">학교별<br>$(E $area.Name) 수학과외</h2>
+        <p class="area-note">$(E $area.Name) $(E $schoolCounts) 학생 모두 다니는 학교의 진도와 시험 범위, 교과서에 맞춰 수업을 준비합니다.</p>
+        <div class="school-groups">
+          $schoolGroups
+        </div>
+      </section>
+$(Get-Faq '05' $faqs)
+$(Get-Related '06' '가까운 지역<br>수학과외' $hubLinks $null)
 $(Get-Cta "$($area.Name) 수학과외 상담" '../../')
     </div>
 "@
